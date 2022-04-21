@@ -5,7 +5,7 @@ library(readr)
 library(jsonlite)
 library(dplyr)
 library(ModelMetrics)
-
+library(caret)
 set.seed(5082)
 
 
@@ -114,7 +114,7 @@ rf.confusion<-table(yhat.rf, test$interest_level)
 rf.confusion 
 (rf.confusion[1,1]+rf.confusion[2,2]+rf.confusion[3,3])/(sum(rf.confusion))
 #Accuracy Rate: 67.3%
-mlogLoss(test$interest_level, yhat.rf)
+
 
 ###KNN###
 set.seed(5082)
@@ -125,6 +125,7 @@ summary(knnmod)
 predk <- predict(knnmod, newdata=testx, type="prob")
 predk
 mlogLoss(testy, predk)
+predk <- predict(knnmod, newdata=testx)
 conmat <- table(predk, testy)
 conmat
 accuracyknn <- (conmat[1,1]+conmat[2,2]+conmat[3,3])/sum(conmat)
